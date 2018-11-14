@@ -38,8 +38,8 @@ def get_CronTrigger_value(field_name):
 def subprocess_job(cmd, timeout = 60, log_start_end = False):
     if log_start_end: logging.info('"{}" start'.format(cmd))
     try:   subprocess.run(cmd, timeout = timeout, check = True, stderr = subprocess.PIPE, shell = True)
-    except subprocess.TimeoutExpired:          logging.info('"{}" timeout'.format(cmd))
-    except subprocess.CalledProcessError as e: logging.info('"{}" error for\n{}'.format(cmd, e.stderr.decode()))
+    except subprocess.CalledProcessError as e: logging.error('"{}" error for\n{}'.format(cmd, e.stderr.decode()))
+    except :logging.exception('')
     if log_start_end: logging.info('"{}" end'.format(cmd))
 
 sched = BackgroundScheduler() 

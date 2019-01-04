@@ -42,7 +42,12 @@ def subprocess_job(cmd, timeout = 60, log_start_end = False):
     except :logging.exception('')
     if log_start_end: logging.info('"{}" end'.format(cmd))
 
-sched = BackgroundScheduler() 
+sched = BackgroundScheduler({'apscheduler.executors.default': {
+                                 'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+                                 'max_workers': '10000'
+                             },
+                             'apscheduler.job_defaults.max_instances': '10',
+                             'apscheduler.job_defaults.misfire_grace_time':'30'}) 
 sched.start()
 
 while True:
